@@ -21,7 +21,7 @@ public abstract class EntityState
     {
         // Evertime stage will be changed
         anim.SetBool(animBoolName, true);
-        Debug.Log("I enter " + animBoolName);
+        //Debug.Log("I enter " + animBoolName);
         triggerCalled = false;
     }
 

@@ -19,7 +19,7 @@ public class Entity_AnimationTriggers : MonoBehaviour
 
     private void AttackTrigger()
     {
-        Debug.Log("I perform Target detection");
+        //Debug.Log("I perform Target detection");
         entityCombat.PerformAttack();
     }
 }

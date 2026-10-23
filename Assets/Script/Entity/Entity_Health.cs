@@ -6,9 +6,9 @@ public class Entity_Health : MonoBehaviour, IDamageable
     private Slider healthBar;
     private Entity_VFX entityVFX;
     private Entity entity;
+    private Entity_Stats stats;
 
     [SerializeField] protected float currentHp;
-    [SerializeField] protected float maxHp = 100f;
     [SerializeField] protected bool isDead;
 
     [Header("On Damage Knockback")]
@@ -23,26 +23,37 @@ public class Entity_Health : MonoBehaviour, IDamageable
     {
         entityVFX = GetComponent<Entity_VFX>();
         entity = GetComponent<Entity>();
+        stats = GetComponent<Entity_Stats>();
         healthBar = GetComponentInChildren<Slider>();
 
-        currentHp = maxHp;
+        currentHp = stats.GetMaxHealth();
         UpdateHPBar();
     }
 
-    public virtual void TakeDamage(float dmg, Transform dmgDealer)
+    public virtual bool TakeDamage(float dmg, Transform dmgDealer)
     {
         if (isDead)
         {
-            return;
+            return false;
+        }
+
+        if (AttackEvaded())
+        {
+            Debug.Log($"{gameObject.name} evaded the attack!");
+            return false;
         }
 
         Vector2 knockback = CalculateKnockback(dmg, dmgDealer);
         float duration = calculateDuration(dmg);
 
         entity?.ReceiveKnockBack(knockback, duration);
-        entityVFX?.PlayOnDamageVfx();
+        entityVFX?.PlayOnDamageVfx(); 
         ReduceHp(dmg);
+
+        return true;
     }
+
+    private bool AttackEvaded() => Random.Range(0, 100) < stats.GetEvasion();
 
     protected void ReduceHp(float dmg)
     {
@@ -71,7 +82,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
             return;
         }
 
-        healthBar.value = currentHp / maxHp; 
+        healthBar.value = currentHp / stats.GetMaxHealth(); 
     }
 
 
@@ -86,5 +97,5 @@ public class Entity_Health : MonoBehaviour, IDamageable
     }
 
     private float calculateDuration(float dmg) => IsHeavyDamage(dmg) ? heavyKnockBackDuration : knockBackDuration;
-    private bool IsHeavyDamage(float dmg) => dmg / maxHp > heavyDmgThreshold;
+    private bool IsHeavyDamage(float dmg) => dmg / stats.GetMaxHealth() > heavyDmgThreshold;
 }

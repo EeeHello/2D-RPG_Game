@@ -17,7 +17,7 @@ public class Player_GroundedState : PlayerState
 
         if (playerInputSet.Player.Jump.WasPressedThisFrame() && player.isGroundDetected)
         {
-            Debug.Log("Jump!");
+            //Debug.Log("Jump!");
             stateMachine.ChangeState(player.jumpState);
         }
 

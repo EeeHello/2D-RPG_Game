@@ -1213,7 +1213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!70 &547645490
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1351,7 +1351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHp: 0
-  maxHp: 100
   isDead: 0
   knockBackPower: {x: 1.5, y: 2.5}
   heavyKnockBackPower: {x: 7, y: 7}
@@ -1370,7 +1369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e5e586d9ec49147b684abf12a21e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmg: 10
   targetCheck: {fileID: 1048648524}
   targetcheckRadius: 1
   whatIsTarget:
@@ -2695,7 +2693,7 @@ MonoBehaviour:
     parallaxMultiplier: 1
     imageWidthOffset: 0
   - background: {fileID: 1411201430}
-    parallaxMultiplier: 0.65
+    parallaxMultiplier: 0.9
     imageWidthOffset: 5
 --- !u!1 &1643072490
 GameObject:
@@ -68871,6 +68869,7 @@ GameObject:
   - component: {fileID: 1833316849}
   - component: {fileID: 1833316850}
   - component: {fileID: 1833316851}
+  - component: {fileID: 1833316852}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -69009,7 +69008,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHp: 0
-  maxHp: 100
   isDead: 0
   knockBackPower: {x: 1.5, y: 2.5}
   heavyKnockBackPower: {x: 7, y: 7}
@@ -69044,7 +69042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df059d92d340f64478e1748008567040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmg: 10
   targetCheck: {fileID: 276681455}
   targetcheckRadius: 1
   whatIsTarget:
@@ -69054,6 +69051,53 @@ MonoBehaviour:
   whatIsCounterable:
     serializedVersion: 2
     m_Bits: 2304
+--- !u!114 &1833316852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833316843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2d0246d6935604397cf0e1ceb3bf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth:
+    baseValue: 100
+  major:
+    strength:
+      baseValue: 0
+    agility:
+      baseValue: 0
+    intelligent:
+      baseValue: 0
+    vitality:
+      baseValue: 0
+  offense:
+    physicalDamage:
+      baseValue: 10
+    critDamage:
+      baseValue: 250
+    critChance:
+      baseValue: 100
+    fireDMG:
+      baseValue: 0
+    iceDMG:
+      baseValue: 0
+    lightningDMG:
+      baseValue: 0
+  defense:
+    armor:
+      baseValue: 0
+    evasion:
+      baseValue: 0
+    fireRES:
+      baseValue: 0
+    iceRES:
+      baseValue: 0
+    lightningRES:
+      baseValue: 0
 --- !u!1 &1909264049
 GameObject:
   m_ObjectHideFlags: 0
@@ -69069,6 +69113,7 @@ GameObject:
   - component: {fileID: 1909264054}
   - component: {fileID: 1909264055}
   - component: {fileID: 1909264056}
+  - component: {fileID: 1909264057}
   m_Layer: 8
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -69210,7 +69255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e5e586d9ec49147b684abf12a21e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmg: 10
   targetCheck: {fileID: 620314816}
   targetcheckRadius: 1
   whatIsTarget:
@@ -69229,7 +69273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHp: 0
-  maxHp: 100
   isDead: 0
   knockBackPower: {x: 3, y: 3}
   heavyKnockBackPower: {x: 7, y: 7}
@@ -69253,6 +69296,53 @@ MonoBehaviour:
   onHitVfxColor: {r: 0.7075472, g: 0.65080994, b: 0.65080994, a: 1}
   hitVfx: {fileID: 6828195149061884127, guid: cf59836790f5ed74e8ad4effceefea31, type: 3}
   attackAlert: {fileID: 389716703}
+--- !u!114 &1909264057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909264049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2d0246d6935604397cf0e1ceb3bf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth:
+    baseValue: 100
+  major:
+    strength:
+      baseValue: 0
+    agility:
+      baseValue: 0
+    intelligent:
+      baseValue: 0
+    vitality:
+      baseValue: 0
+  offense:
+    physicalDamage:
+      baseValue: 10
+    critDamage:
+      baseValue: 0
+    critChance:
+      baseValue: 0
+    fireDMG:
+      baseValue: 0
+    iceDMG:
+      baseValue: 0
+    lightningDMG:
+      baseValue: 0
+  defense:
+    armor:
+      baseValue: 0
+    evasion:
+      baseValue: 0
+    fireRES:
+      baseValue: 0
+    iceRES:
+      baseValue: 0
+    lightningRES:
+      baseValue: 0
 --- !u!1 &1923868978
 GameObject:
   m_ObjectHideFlags: 0

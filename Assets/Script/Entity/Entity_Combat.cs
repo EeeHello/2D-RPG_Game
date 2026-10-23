@@ -7,12 +7,10 @@ public class Entity_Combat : MonoBehaviour
 
     //private Entity_SFX sfx;
     private Entity_VFX vfx;
-    //private Entity_Stats stats;
+    private Entity_Stats stats;
     //
 
     //public DamageScaleData basicAttackScale;
-
-    public float dmg = 10f;
 
     [Header("Target detection")]
     [SerializeField] private Transform targetCheck;
@@ -23,6 +21,7 @@ public class Entity_Combat : MonoBehaviour
     {
         // Get components of sfx, vfx and stats later
         vfx = GetComponent<Entity_VFX>();
+        stats = GetComponent<Entity_Stats>();   
     }
 
     public void PerformAttack()
@@ -36,8 +35,12 @@ public class Entity_Combat : MonoBehaviour
                 continue;
             }
 
-            damageable.TakeDamage(dmg, transform);
-            vfx.CreateOnHItVFX(target.transform);
+            bool targetGotHit = damageable.TakeDamage(stats.GetPhysicalDamage(), transform);
+
+            if (targetGotHit)
+            {
+                vfx.CreateOnHItVFX(target.transform);
+            }
         }
     }
 
@@ -50,8 +53,12 @@ public class Entity_Combat : MonoBehaviour
             return;
         }
 
-        damageable.TakeDamage(dmg, transform);
-        vfx.CreateOnHItVFX(target.transform);
+        bool targetGotHit = damageable.TakeDamage(stats.GetPhysicalDamage(), transform);
+        
+        if (targetGotHit)
+        {
+            vfx.CreateOnHItVFX(target.transform);
+        }
     }
 
     protected Collider2D[] GetDetectedColliders(LayerMask whatToDetect)
