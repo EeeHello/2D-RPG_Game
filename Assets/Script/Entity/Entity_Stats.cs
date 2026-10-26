@@ -9,13 +9,15 @@ public class Entity_Stats : MonoBehaviour
 
     public float GetMaxHealth()
     {
-        float baseHP = maxHealth.GetValue();
-        float bonusHP = major.vitality.GetValue() * 5f;
+        float baseMaxHP = maxHealth.GetValue();
+        float bonusMaxHP = major.vitality.GetValue() * 5f;
 
-        return baseHP + bonusHP;
+        float finalMaxHP = baseMaxHP + bonusMaxHP;
+
+        return finalMaxHP;
     }
 
-    public float GetPhysicalDamage()
+    public float GetPhysicalDamage(out bool isCrit) //  with out, you can get info out of this method when called
     {
         float baseDamage = offense.physicalDamage.GetValue();
         float bonusDamage = major.strength.GetValue();
@@ -32,7 +34,7 @@ public class Entity_Stats : MonoBehaviour
 
         float resultedCritDamage = (baseCritPower + bonusCritPower) / 100; // toatal crit power multiplier (e.g 150/ 100 = 1.5f - multiplier)
 
-        bool isCrit = Random.Range(0, 100) < critChance;
+        isCrit = Random.Range(0, 100) < critChance; 
 
         float finalDMG = isCrit ? totalBaseDamage * resultedCritDamage : totalBaseDamage;
 

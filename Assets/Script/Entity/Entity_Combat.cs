@@ -21,7 +21,7 @@ public class Entity_Combat : MonoBehaviour
     {
         // Get components of sfx, vfx and stats later
         vfx = GetComponent<Entity_VFX>();
-        stats = GetComponent<Entity_Stats>();   
+        stats = GetComponent<Entity_Stats>();
     }
 
     public void PerformAttack()
@@ -35,11 +35,12 @@ public class Entity_Combat : MonoBehaviour
                 continue;
             }
 
-            bool targetGotHit = damageable.TakeDamage(stats.GetPhysicalDamage(), transform);
+            float damage = stats.GetPhysicalDamage(out bool isCrit);
+            bool targetGotHit = damageable.TakeDamage(damage, transform);
 
             if (targetGotHit)
             {
-                vfx.CreateOnHItVFX(target.transform);
+                vfx.CreateOnHItVFX(target.transform, isCrit);
             }
         }
     }
@@ -53,11 +54,12 @@ public class Entity_Combat : MonoBehaviour
             return;
         }
 
-        bool targetGotHit = damageable.TakeDamage(stats.GetPhysicalDamage(), transform);
-        
+        float damage = stats.GetPhysicalDamage(out bool isCrit);
+        bool targetGotHit = damageable.TakeDamage(damage, transform);
+
         if (targetGotHit)
         {
-            vfx.CreateOnHItVFX(target.transform);
+            vfx.CreateOnHItVFX(target.transform, isCrit);
         }
     }
 

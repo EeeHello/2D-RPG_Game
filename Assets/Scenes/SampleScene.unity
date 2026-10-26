@@ -1390,6 +1390,7 @@ MonoBehaviour:
   onDamageVfxDuration: 0.2
   onHitVfxColor: {r: 1, g: 1, b: 1, a: 1}
   hitVfx: {fileID: 6828195149061884127, guid: cf59836790f5ed74e8ad4effceefea31, type: 3}
+  critVfx: {fileID: 0}
   attackAlert: {fileID: 0}
 --- !u!1 &560100324
 GameObject:
@@ -1798,6 +1799,7 @@ MonoBehaviour:
   onDamageVfxDuration: 0.2
   onHitVfxColor: {r: 1, g: 1, b: 1, a: 1}
   hitVfx: {fileID: 0}
+  critVfx: {fileID: 0}
 --- !u!1 &1133165171
 GameObject:
   m_ObjectHideFlags: 0
@@ -69030,6 +69032,7 @@ MonoBehaviour:
   onDamageVfxDuration: 0.15
   onHitVfxColor: {r: 1, g: 0.7262142, b: 0.2688679, a: 1}
   hitVfx: {fileID: 6828195149061884127, guid: cf59836790f5ed74e8ad4effceefea31, type: 3}
+  critVfx: {fileID: 3791145423557421883, guid: e4071143c84e2594898a8f2f1ce02dcb, type: 3}
 --- !u!114 &1833316851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69076,7 +69079,7 @@ MonoBehaviour:
       baseValue: 0
   offense:
     physicalDamage:
-      baseValue: 10
+      baseValue: 1
     critDamage:
       baseValue: 250
     critChance:
@@ -69295,6 +69298,7 @@ MonoBehaviour:
   onDamageVfxDuration: 0.2
   onHitVfxColor: {r: 0.7075472, g: 0.65080994, b: 0.65080994, a: 1}
   hitVfx: {fileID: 6828195149061884127, guid: cf59836790f5ed74e8ad4effceefea31, type: 3}
+  critVfx: {fileID: 3791145423557421883, guid: e4071143c84e2594898a8f2f1ce02dcb, type: 3}
   attackAlert: {fileID: 389716703}
 --- !u!114 &1909264057
 MonoBehaviour:
@@ -69321,9 +69325,9 @@ MonoBehaviour:
       baseValue: 0
   offense:
     physicalDamage:
-      baseValue: 10
+      baseValue: 1
     critDamage:
-      baseValue: 0
+      baseValue: 100
     critChance:
       baseValue: 0
     fireDMG:
