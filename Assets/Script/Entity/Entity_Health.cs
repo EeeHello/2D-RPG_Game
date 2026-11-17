@@ -30,7 +30,7 @@ public class Entity_Health : MonoBehaviour, IDamageable
         UpdateHPBar();
     }
 
-    public virtual bool TakeDamage(float dmg, Transform dmgDealer)
+    public virtual bool TakeDamage(float dmg, float elementalDMG, ElementType element, Transform dmgDealer)
     {
         if (isDead)
         {
@@ -43,25 +43,40 @@ public class Entity_Health : MonoBehaviour, IDamageable
             return false;
         }
 
-        Vector2 knockback = CalculateKnockback(dmg, dmgDealer);
-        float duration = calculateDuration(dmg);
+        Entity_Stats dmgDealerStats = dmgDealer.GetComponent<Entity_Stats>();
+        float armorReduction = dmgDealerStats != null ? dmgDealerStats.GetArmorReduction() : 0;
 
-        entity?.ReceiveKnockBack(knockback, duration);
-        entityVFX?.PlayOnDamageVfx(); 
-        ReduceHp(dmg);
+        float mitigation = stats.GetArmorMitigation(armorReduction);
+        float physicalDamageTaken = dmg * (1f - mitigation);
+
+        float resistance = stats.GetElementalRES(element);
+        float elementalDamageTaken = elementalDMG * (1f - resistance);
+
+        TakeKnockback(dmgDealer, physicalDamageTaken);
+        ReduceHp(physicalDamageTaken + elementalDamageTaken);
 
         return true;
+    }
+
+    private void TakeKnockback(Transform dmgDealer, float finalDMG)
+    {
+        Vector2 knockback = CalculateKnockback(finalDMG, dmgDealer);
+        float duration = calculateDuration(finalDMG);
+
+        entity?.ReceiveKnockBack(knockback, duration);
     }
 
     private bool AttackEvaded() => Random.Range(0, 100) < stats.GetEvasion();
 
     protected void ReduceHp(float dmg)
     {
+        entityVFX?.PlayOnDamageVfx();
         currentHp -= dmg;
         UpdateHPBar();
 
-        if (currentHp <= 0)
+        if (currentHp <= 0.01f)
         {
+            currentHp = 0f;
             Die();
         }
     }
@@ -77,12 +92,12 @@ public class Entity_Health : MonoBehaviour, IDamageable
 
     private void UpdateHPBar()
     {
-        if (healthBar  == null)
+        if (healthBar == null)
         {
             return;
         }
 
-        healthBar.value = currentHp / stats.GetMaxHealth(); 
+        healthBar.value = currentHp / stats.GetMaxHealth();
     }
 
 

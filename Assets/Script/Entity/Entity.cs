@@ -27,6 +27,7 @@ public class Entity : MonoBehaviour
     // condition var
     private bool isKnocked;
     private Coroutine knockBackCoroutine;
+    public Coroutine slowDownCoroutine;
 
     protected virtual void Awake()
     {
@@ -54,7 +55,23 @@ public class Entity : MonoBehaviour
 
     public virtual void EntityDeath()
     {
-  
+
+    }
+
+    public virtual void SlowEntity(float duration, float slowMultiplier)
+    {
+        if (slowDownCoroutine != null)
+        {
+            StopCoroutine(slowDownCoroutine);
+            Debug.Log("STOPPPPPP Slowdown");
+        }
+
+        slowDownCoroutine = StartCoroutine(SlowDownEntityCo(duration, slowMultiplier));
+    }
+
+    protected virtual IEnumerator SlowDownEntityCo(float duration, float slowMultiplier)
+    {
+        yield return null;
     }
 
     public void ReceiveKnockBack(Vector2 knockback, float duration)
@@ -75,7 +92,7 @@ public class Entity : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         rb.linearVelocity = Vector2.zero;
-        isKnocked = false; 
+        isKnocked = false;
     }
 
     public void Flip()

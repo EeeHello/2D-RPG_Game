@@ -1,10 +1,10 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class Enemy : Entity
 {
-    public Entity_Combat combat {  get; private set; }
+    public Entity_Combat combat { get; private set; }
     public Enemy_IdleState idleState;
     public Enemy_MoveState moveState;
     public Enemy_AttackState attackState;
@@ -87,7 +87,7 @@ public class Enemy : Entity
 
     public RaycastHit2D PlayerDetected()
     {
-        RaycastHit2D hit = 
+        RaycastHit2D hit =
             Physics2D.Raycast(playerCheck.position, Vector2.right * facingDir, playerCheckDistance, whatIsPlayer | whatIsGround);
 
         if (hit.collider == null || hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
@@ -96,6 +96,25 @@ public class Enemy : Entity
         }
 
         return hit;
+    }
+
+    protected override IEnumerator SlowDownEntityCo(float duration, float slowMultiplier)
+    {
+        float originalMoveSpeed = moveSpeed;
+        float originalBattleSpeed = battleMoveSpeed;
+        float originalAnimSpeed = animator.speed;
+
+        float speedMultiplier = 1 - slowMultiplier;
+
+        moveSpeed = moveSpeed * speedMultiplier;
+        battleMoveSpeed = battleMoveSpeed * speedMultiplier;
+        animator.speed = animator.speed * speedMultiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed = originalMoveSpeed;
+        battleMoveSpeed = originalBattleSpeed;
+        animator.speed = originalAnimSpeed;
     }
 
     protected override void OnDrawGizmos()
@@ -124,7 +143,7 @@ public class Enemy : Entity
 
     private void OnDisable()
     {
-         Player.OnPlayerDeath -= HandlePlayerDeath;
+        Player.OnPlayerDeath -= HandlePlayerDeath;
     }
 
 }

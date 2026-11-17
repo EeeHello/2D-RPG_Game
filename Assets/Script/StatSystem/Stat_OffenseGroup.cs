@@ -9,6 +9,8 @@ public class Stat_OffenseGroup
     public Stat critDamage;
     public Stat critChance;
 
+    public Stat armorReduction;
+
     // Elemental DMG
     public Stat fireDMG;
     public Stat iceDMG;

@@ -17,6 +17,10 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float targetcheckRadius = 1;
     [SerializeField] private LayerMask whatIsTarget;
 
+    [Header("Status effect details")]
+    [SerializeField] private float defaultDuration = 3f;
+    [SerializeField] private float chillSlowMultiplier = 0.2f;
+ 
     private void Awake()
     {
         // Get components of sfx, vfx and stats later
@@ -36,13 +40,38 @@ public class Entity_Combat : MonoBehaviour
             }
 
             float damage = stats.GetPhysicalDamage(out bool isCrit);
-            bool targetGotHit = damageable.TakeDamage(damage, transform);
+            float eDamage = stats.GetElementalDamage(out ElementType element);
+
+            bool targetGotHit = damageable.TakeDamage(damage, eDamage, element, transform);
+
+            if (element != ElementType.None)
+            {
+                ApplyStatusEffect(target.transform, element);
+            }
 
             if (targetGotHit)
             {
+                vfx.UpdateOnHitColor(element);
                 vfx.CreateOnHItVFX(target.transform, isCrit);
             }
         }
+    }
+
+    public void ApplyStatusEffect(Transform target, ElementType element)
+    {
+        Entity_StatusHandler statusHandler = target.GetComponent<Entity_StatusHandler>(); 
+
+        if (statusHandler == null)
+        {
+            return;
+        }
+
+        if (element == ElementType.Ice && statusHandler.CanBeApplied(ElementType.Ice))
+        {
+            statusHandler.ApplyChilledEffect(defaultDuration, chillSlowMultiplier);
+            Debug.Log("Slow is " + chillSlowMultiplier);
+        }
+
     }
 
     public void PerformAttackOnTarget(Transform target)
@@ -55,10 +84,18 @@ public class Entity_Combat : MonoBehaviour
         }
 
         float damage = stats.GetPhysicalDamage(out bool isCrit);
-        bool targetGotHit = damageable.TakeDamage(damage, transform);
+        float eDamage = stats.GetElementalDamage(out ElementType element);
+
+        bool targetGotHit = damageable.TakeDamage(damage, eDamage, element, transform);
+
+        if (element != ElementType.None)
+        {
+            ApplyStatusEffect(target.transform, element);
+        }
 
         if (targetGotHit)
         {
+            vfx.UpdateOnHitColor(element);
             vfx.CreateOnHItVFX(target.transform, isCrit);
         }
     }

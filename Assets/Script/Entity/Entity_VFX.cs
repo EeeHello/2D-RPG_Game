@@ -17,11 +17,47 @@ public class Entity_VFX : MonoBehaviour
     [SerializeField] private GameObject hitVfx;
     [SerializeField] private GameObject critVfx;
 
+    [Header("Element Colors")]
+    [SerializeField] private Color chillVfx = Color.cyan;
+    private Color orignalHitVfxColor;
+ 
     private void Awake()
     {
         entity = GetComponent<Entity>();
         sr = GetComponentInChildren<SpriteRenderer>();
         orginalMaterial = sr.material;
+        orignalHitVfxColor = onHitVfxColor;
+    }
+
+    public void PlayOnStatusVfx(float duration, ElementType element)
+    {
+        if (element == ElementType.Ice)
+        {
+            StartCoroutine(PlayStatusVfxCo(duration, chillVfx));
+        }
+    }
+
+    private IEnumerator PlayStatusVfxCo(float duration, Color effectColor) 
+    {
+        float tickInterval = 0.25f;
+        float timeHasPasssed = 0;
+
+        Color lightColor = effectColor * 1.2f;
+        Color darkColor = effectColor * 0.8f;
+
+        bool toggle = false;
+
+        while (timeHasPasssed < duration)
+        {
+            sr.color = toggle ? lightColor : darkColor;
+            toggle = !toggle; 
+
+            yield return new WaitForSeconds(tickInterval);
+
+            timeHasPasssed = timeHasPasssed + tickInterval;
+        }
+
+        sr.color = Color.white;
     }
 
     public void CreateOnHItVFX(Transform target, bool isCrit)
@@ -41,15 +77,28 @@ public class Entity_VFX : MonoBehaviour
 
     }
 
+    public void UpdateOnHitColor(ElementType element)
+    {
+        if (element == ElementType.Ice)
+        {
+            onHitVfxColor = chillVfx;
+        }
+
+        if (element == ElementType.None)
+        {
+            onHitVfxColor = orignalHitVfxColor;
+        }
+    }
+
     public void PlayOnDamageVfx()
     {
         if (onDamageVfxCo != null)
             StopCoroutine(onDamageVfxCo);
 
-        onDamageVfxCo = StartCoroutine(OnDamageVfxCoroutine());
+        onDamageVfxCo = StartCoroutine(OnDamageVfxCo());
     }
 
-    private IEnumerator OnDamageVfxCoroutine()
+    private IEnumerator OnDamageVfxCo()
     {
         sr.material = onDamageMaterial;
 
