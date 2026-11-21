@@ -28,7 +28,7 @@ public class Entity_Stats : MonoBehaviour
         return finalMaxHP;
     }
 
-    public float GetPhysicalDamage(out bool isCrit) //  with out, you can get info out of this method when called
+    public float GetPhysicalDamage(out bool isCrit, float scaleFactor = 1) //  with out, you can get info out of this method when called
     {
         float baseDamage = offense.physicalDamage.GetValue();
         float bonusDamage = major.strength.GetValue();
@@ -49,7 +49,7 @@ public class Entity_Stats : MonoBehaviour
 
         float finalDMG = isCrit ? totalBaseDamage * resultedCritDamage : totalBaseDamage;
 
-        return finalDMG;
+        return finalDMG * scaleFactor;
     }
 
     public float GetArmorMitigation(float armorReduction)
@@ -92,7 +92,7 @@ public class Entity_Stats : MonoBehaviour
         return finalEvasion;
     }
 
-    public float GetElementalDamage(out ElementType element)
+    public float GetElementalDamage(out ElementType element, float scaleFactor = 1)
     {
         float fireDMG = offense.fireDMG.GetValue();
         float iceDMG = offense.iceDMG.GetValue();
@@ -129,7 +129,7 @@ public class Entity_Stats : MonoBehaviour
 
         float finalElementalDMG = highestDMG + weakerElementsDMG + bonusElementalDMG;
 
-        return finalElementalDMG;
+        return finalElementalDMG * scaleFactor;
     }
 
     public float GetElementalRES(ElementType element)
